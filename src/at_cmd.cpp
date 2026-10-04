@@ -81,6 +81,50 @@ void AtCommand::handleLine(String line) {
     return;
   }
 
+  if (cmd == "AT+CWSAP?") {
+    Serial.printf("+CWSAP:\"%s\",\"%s\"\n", _cfg->apSsid.c_str(),
+                  _cfg->apPass.c_str());
+    replyOk();
+    return;
+  }
+
+  if (cmd.startsWith("AT+CWSAP=")) {
+    // AT+CWSAP="ssid","pass"
+    String args = line.substring(String("AT+CWSAP=").length());
+    int comma = -1;
+    bool inQ = false;
+    for (int i = 0; i < (int)args.length(); ++i) {
+      if (args[i] == '"') {
+        inQ = !inQ;
+      } else if (args[i] == ',' && !inQ) {
+        comma = i;
+        break;
+      }
+    }
+    if (comma < 0) {
+      replyError();
+      return;
+    }
+    String apSsid = unquote(args.substring(0, comma));
+    String apPass = unquote(args.substring(comma + 1));
+    if (!apSsid.length() || apPass.length() < 8) {
+      Serial.println(F("+CWSAP: haslo SoftAP musi miec min. 8 znakow"));
+      replyError();
+      return;
+    }
+    _cfg->apSsid = apSsid;
+    _cfg->apPass = apPass;
+    _cfg->apFallback = true;
+    // Restart sieci — SoftAP z nowym haslem (gdy STA fail)
+    if (!wifiStart(*_cfg)) {
+      replyError();
+      return;
+    }
+    _bridge->begin(*_cfg);
+    replyOk();
+    return;
+  }
+
   if (cmd.startsWith("AT+CWJAP=")) {
     // AT+CWJAP="ssid","pass"
     String args = line.substring(String("AT+CWJAP=").length());

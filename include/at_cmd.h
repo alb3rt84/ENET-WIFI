@@ -15,7 +15,9 @@
  *  AT+GMR             — wersja
  *  AT+CWMODE?         — 1=STA
  *  AT+CWJAP="ssid","pass"
- *  AT+CWJAP?          — aktualne SSID
+ *  AT+CWJAP?          — aktualne SSID STA
+ *  AT+CWSAP="ssid","pass" — ustaw SoftAP (haslo min. 8 znakow)
+ *  AT+CWSAP?          — aktualne SSID/haslo SoftAP
  *  AT+CIFSR           — IP
  *  AT+CIPSERVER=1,port  — start serwera TCP (jak ENET)
  *  AT+CIPSERVER=0     — stop serwera
