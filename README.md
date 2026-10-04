@@ -49,6 +49,8 @@ AT
 AT+GMR
 AT+CWJAP="ssid","haslo"
 AT+CWJAP?
+AT+CWSAP="WT01-WIFI","wt01wifi"
+AT+CWSAP?
 AT+CIFSR
 AT+CIPSERVER=1,8080
 AT+UART_DEF=115200,8,1,0,0
@@ -60,9 +62,33 @@ AT+RST
 
 Po `AT+CWJAP=...` i `AT+SAVE` ustaw CFG w stan HIGH — most działa transparentnie bez AT na linii danych.
 
-## SoftAP awaryjny
+## SoftAP awaryjny (`WT01-WIFI`)
 
-Gdy STA nie połączy się w 20 s, startuje AP `WT01-WIFI` / `wt01wifi` (IP zwykle `192.168.4.1`). Ten sam port TCP.
+Gdy płytka **nie połączy się z Twoim routerem**, odpala własną sieć:
+
+| | |
+|---|---|
+| **SSID** | `WT01-WIFI` |
+| **Hasło** | `wt01wifi` |
+| **IP płytki** | `192.168.4.1` |
+| **TCP** | port `8080` |
+
+Połączenie: telefon/PC → sieć `WT01-WIFI` → hasło `wt01wifi` → TCP na `192.168.4.1:8080`.
+
+Zmiana hasła SoftAP (Serial, CFG=LOW), potem zapisz:
+
+```
+AT+CWSAP="WT01-WIFI","nowehaslo"
+AT+SAVE
+```
+
+Żeby płytka łączyła się z **Twoją** siecią domową (zamiast SoftAP):
+
+```
+AT+CWJAP="nazwa-routera","haslo-routera"
+AT+SAVE
+AT+RST
+```
 
 ## Uwagi
 
