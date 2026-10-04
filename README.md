@@ -49,6 +49,8 @@ AT
 AT+GMR
 AT+CWJAP="ssid","haslo"
 AT+CWJAP?
+AT+CWSAP="ENET WIFI","12345678"
+AT+CWSAP?
 AT+CIFSR
 AT+CIPSERVER=1,8080
 AT+UART_DEF=115200,8,1,0,0
@@ -60,9 +62,35 @@ AT+RST
 
 Po `AT+CWJAP=...` i `AT+SAVE` ustaw CFG w stan HIGH — most działa transparentnie bez AT na linii danych.
 
-## SoftAP awaryjny
+## SoftAP (`ENET WIFI`)
 
-Gdy STA nie połączy się w 20 s, startuje AP `WT01-WIFI` / `wt01wifi` (IP zwykle `192.168.4.1`). Ten sam port TCP.
+Gdy płytka **nie połączy się z routerem**, odpala własną sieć:
+
+| | |
+|---|---|
+| **SSID** | `ENET WIFI` |
+| **Hasło** | `12345678` |
+| **IP płytki** | `192.168.4.1` |
+| **TCP** | port `8080` |
+
+> ESP32 SoftAP (WPA2) wymaga hasła **min. 8 znaków**, dlatego jest `12345678` (nie 6-znakowe `123456`).
+
+Połączenie: telefon/PC → sieć `ENET WIFI` → hasło `12345678` → TCP na `192.168.4.1:8080`.
+
+Zmiana SoftAP (Serial, CFG=LOW), potem zapisz:
+
+```
+AT+CWSAP="ENET WIFI","12345678"
+AT+SAVE
+```
+
+Żeby płytka łączyła się z **Twoją** siecią domową (zamiast SoftAP):
+
+```
+AT+CWJAP="nazwa-routera","haslo-routera"
+AT+SAVE
+AT+RST
+```
 
 ## Uwagi
 

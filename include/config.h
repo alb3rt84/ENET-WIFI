@@ -37,10 +37,10 @@
 #define ETH_CLK_MODE      ETH_CLOCK_GPIO0_IN
 
 #ifndef WIFI_SSID_DEFAULT
-#define WIFI_SSID_DEFAULT "ESP32-NET"
+#define WIFI_SSID_DEFAULT "ENET WIFI"
 #endif
 #ifndef WIFI_PASS_DEFAULT
-#define WIFI_PASS_DEFAULT "esp32pass"
+#define WIFI_PASS_DEFAULT "123456"
 #endif
 #ifndef TCP_PORT_DEFAULT
 #define TCP_PORT_DEFAULT  8080
@@ -50,14 +50,15 @@
 #endif
 
 // SoftAP awaryjny gdy STA się nie łączy
+// Uwaga: WPA2 SoftAP na ESP32 wymaga hasła min. 8 znaków
 #ifndef AP_SSID_DEFAULT
-#define AP_SSID_DEFAULT   "WT01-WIFI"
+#define AP_SSID_DEFAULT   "ENET WIFI"
 #endif
 #ifndef AP_PASS_DEFAULT
-#define AP_PASS_DEFAULT   "wt01wifi"
+#define AP_PASS_DEFAULT   "12345678"
 #endif
 
-#define NVS_NAMESPACE     "enetwifi"
+#define NVS_NAMESPACE     "enetwifi2"
 #define BRIDGE_BUF_SIZE   1024
 #define MAX_CLIENTS       4
 #define WIFI_CONNECT_TIMEOUT_MS 20000

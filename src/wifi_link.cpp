@@ -40,6 +40,7 @@ bool wifiStart(const NetConfig &cfg) {
   }
 
   Serial.printf("Starting SoftAP \"%s\"...\n", cfg.apSsid.c_str());
+  Serial.printf("SoftAP haslo (WPA2): %s\n", cfg.apPass.c_str());
   WiFi.mode(WIFI_AP);
   bool ok = WiFi.softAP(cfg.apSsid.c_str(), cfg.apPass.c_str());
   if (!ok) {
@@ -49,6 +50,7 @@ bool wifiStart(const NetConfig &cfg) {
   }
   g_mode = WifiMode::SoftAP;
   Serial.printf("SoftAP OK  IP=%s\n", WiFi.softAPIP().toString().c_str());
+  Serial.println(F("Polacz telefon/PC z ta siecia, potem TCP na 192.168.4.1:8080"));
   return true;
 }
 
