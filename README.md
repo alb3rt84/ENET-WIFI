@@ -49,7 +49,7 @@ AT
 AT+GMR
 AT+CWJAP="ssid","haslo"
 AT+CWJAP?
-AT+CWSAP="WT01-WIFI","wt01wifi"
+AT+CWSAP="ENET WIFI","12345678"
 AT+CWSAP?
 AT+CIFSR
 AT+CIPSERVER=1,8080
@@ -62,23 +62,25 @@ AT+RST
 
 Po `AT+CWJAP=...` i `AT+SAVE` ustaw CFG w stan HIGH — most działa transparentnie bez AT na linii danych.
 
-## SoftAP awaryjny (`WT01-WIFI`)
+## SoftAP (`ENET WIFI`)
 
-Gdy płytka **nie połączy się z Twoim routerem**, odpala własną sieć:
+Gdy płytka **nie połączy się z routerem**, odpala własną sieć:
 
 | | |
 |---|---|
-| **SSID** | `WT01-WIFI` |
-| **Hasło** | `wt01wifi` |
+| **SSID** | `ENET WIFI` |
+| **Hasło** | `12345678` |
 | **IP płytki** | `192.168.4.1` |
 | **TCP** | port `8080` |
 
-Połączenie: telefon/PC → sieć `WT01-WIFI` → hasło `wt01wifi` → TCP na `192.168.4.1:8080`.
+> ESP32 SoftAP (WPA2) wymaga hasła **min. 8 znaków**, dlatego jest `12345678` (nie 6-znakowe `123456`).
 
-Zmiana hasła SoftAP (Serial, CFG=LOW), potem zapisz:
+Połączenie: telefon/PC → sieć `ENET WIFI` → hasło `12345678` → TCP na `192.168.4.1:8080`.
+
+Zmiana SoftAP (Serial, CFG=LOW), potem zapisz:
 
 ```
-AT+CWSAP="WT01-WIFI","nowehaslo"
+AT+CWSAP="ENET WIFI","12345678"
 AT+SAVE
 ```
 
